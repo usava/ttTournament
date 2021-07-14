@@ -7,15 +7,18 @@ abstract class BaseWeapon
 {
     const SWORD = 'sword';
     const AXE = 'axe';
-    const WEAPONS = [self::SWORD, self::AXE];
+    const GREATSWORD = 'greatSword';
     const BUCKLER = 'buckler';
     const BUCKLER_HP = 3;
+    const WEAPONS = [self::SWORD, self::AXE, self::GREATSWORD];
+    const ARMOR = 'armor';
+    const REDUCE_RECEIVED_DAMAGE = 3;
+    const REDUCE_DELIVERED_DAMAGE = 1;
 
-    protected int $damage;
+    abstract function getDamage() : int;
 
-    abstract function getDamage();
-
-    public function canBroke(string $equipment){
+    public function canBroke(string $equipment) : bool
+    {
         return false;
     }
 }

@@ -5,12 +5,12 @@ namespace Tournament\Weapon;
 
 class Axe extends BaseWeapon
 {
-    function getDamage()
+    function getDamage() : int
     {
         return 6;
     }
 
-    function canBroke($equipment)
+    function canBroke($equipment) : bool
     {
         if($equipment === 'buckler'){
             return true;
