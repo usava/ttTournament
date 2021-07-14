@@ -7,6 +7,6 @@ class Sword extends BaseWeapon
 {
     function getDamage() : int
     {
-        return 5;
+        return BaseWeapon::SWORD_DAMAGE;
     }
 }

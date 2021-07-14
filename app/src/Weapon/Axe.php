@@ -7,12 +7,12 @@ class Axe extends BaseWeapon
 {
     function getDamage() : int
     {
-        return 6;
+        return BaseWeapon::AXE_DAMAGE;
     }
 
     function canBroke($equipment) : bool
     {
-        if($equipment === 'buckler'){
+        if($equipment === BaseWeapon::BUCKLER){
             return true;
         }
 

@@ -5,15 +5,14 @@ namespace Tournament\Weapon;
 
 class GreatSword extends BaseWeapon
 {
-    const GREATSWORD_DAMAGE = 12;
     const HITS_FOR_COOLDOWN = 2;
 
-    private int $hitsBeforeCooldown = self::HITS_FOR_COOLDOWN;
+    private int $hitsForCooldown = self::HITS_FOR_COOLDOWN;
 
     function getDamage() : int
     {
         if ($this->canHit()) {
-            return self::GREATSWORD_DAMAGE;
+            return BaseWeapon::GREATSWORD_DAMAGE;
         }
 
         return 0;
@@ -21,11 +20,11 @@ class GreatSword extends BaseWeapon
 
     private function canHit() : bool
     {
-        if ($this->hitsBeforeCooldown > 0) {
-            $this->hitsBeforeCooldown--;
+        if ($this->hitsForCooldown > 0) {
+            $this->hitsForCooldown--;
             return true;
         }
-        $this->hitsBeforeCooldown = self::HITS_FOR_COOLDOWN;
+        $this->hitsForCooldown = self::HITS_FOR_COOLDOWN;
 
         return false;
     }

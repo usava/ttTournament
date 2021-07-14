@@ -2,35 +2,30 @@
 
 namespace Tournament;
 
+use Tournament\Weapon\Ammunition;
 use Tournament\Weapon\BaseWeapon;
 use Tournament\Weapon\WeaponFactory;
 
-class Warrior
+abstract class Warrior
 {
     const SWORDSMAN_HP = 100;
     const VIKING_HP = 120;
     const HIGHLANDER_HP = 150;
 
     protected int $hp;
-    protected BaseWeapon $weapon;
     protected Warrior $enemy;
-    protected bool $buckler = false;
-    protected int $bucklerHp = BaseWeapon::BUCKLER_HP;
-    protected int $hitCounter = 0;
-    protected bool $armor = false;
+    protected Ammunition $ammunition;
+
+    public function __construct()
+    {
+        $this->ammunition = new Ammunition();
+    }
 
     public function equip($equipmentName): Warrior
     {
-        if (in_array($equipmentName, BaseWeapon::WEAPONS)) {
-            $this->weapon = WeaponFactory::create($equipmentName);
-        }
-
-        if ($equipmentName === BaseWeapon::BUCKLER) {
-            $this->buckler = true;
-        }
-
-        if ($equipmentName === BaseWeapon::ARMOR) {
-            $this->armor = true;
+        if (in_array($equipmentName, BaseWeapon::EQUIPMENT)) {
+            $weapon = WeaponFactory::create($equipmentName);
+            $this->ammunition->addWeapon($weapon);
         }
 
         return $this;
@@ -39,6 +34,8 @@ class Warrior
     function engage(Warrior $enemy): void
     {
         $this->setEnemy($enemy);
+
+        $this->checkAmmunition();
 
         while ($this->alive() and $this->enemy->alive()) {
             $this->attack();
@@ -61,39 +58,25 @@ class Warrior
 
     protected function attack(): void
     {
-        $this->hitCounter++;
-        $damage = $this->weapon->getDamage();
+        $damage = $this->ammunition->getDamage();
+        $damage = $this->attackModifier($damage);
 
-        if($this->armor){
-            $damage -= BaseWeapon::REDUCE_DELIVERED_DAMAGE;
+        if($damage > 0) {
+            $this->enemy->defend($damage);
         }
-
-        $this->enemy->defend($damage);
     }
 
-    protected function defend(int $damage): Warrior
+    protected function defend(int $damage): void
     {
-        if ($this->buckler and !($this->hitCounter % 2)) {
-            $damage = 0;
+        $destroying = $this->enemy->ammunition->canBroke(BaseWeapon::BUCKLER);
+        $blockedDamage = $this->ammunition->getBlockedDamage($damage, $destroying);
 
-            if ($this->enemy->weapon->canBroke('buckler')){
-                $this->bucklerHp--;
+        $this->injury(max($damage - $blockedDamage, 0));
+    }
 
-                if($this->bucklerHp === 0) {
-                    $this->buckler = false;
-                }
-            }
-        }
-
-        if($this->armor) {
-            $damage -= BaseWeapon::REDUCE_RECEIVED_DAMAGE;
-        }
-
-        if ($damage > 0) {
-            $this->hp -= $damage;
-        }
-
-        return $this;
+    protected function injury(int $damage): void
+    {
+        $this->hp -= $damage;
     }
 
     /**
@@ -103,5 +86,18 @@ class Warrior
     {
         $enemy->enemy = $this;
         $this->enemy = $enemy;
+    }
+
+    abstract function getDefaultWeapon(): BaseWeapon;
+    abstract function attackModifier(int $damage): int;
+
+    protected function checkAmmunition(): void
+    {
+        if ($this->ammunition->hasNoWeapons()) {
+            $this->ammunition->addWeapon($this->getDefaultWeapon());
+        }
+        if ($this->enemy->ammunition->hasNoWeapons()) {
+            $this->enemy->ammunition->addWeapon($this->enemy->getDefaultWeapon());
+        }
     }
 }

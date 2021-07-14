@@ -14,6 +14,12 @@ class WeaponFactory
                 return new Axe();
             case BaseWeapon::GREATSWORD:
                 return new GreatSword();
+            case BaseWeapon::POISON:
+                return new Poison();
+            case BaseWeapon::BUCKLER:
+                return new Buckler();
+            case BaseWeapon::ARMOR:
+                return new Armor();
         }
     }
 }
