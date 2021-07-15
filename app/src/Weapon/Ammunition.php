@@ -33,8 +33,8 @@ class Ammunition extends BaseWeapon
 
     public function canBroke($equipmentName): bool
     {
-        foreach($this->weapons as $weapon) {
-            if($weapon->canBroke($equipmentName)){
+        foreach ($this->weapons as $weapon) {
+            if ($weapon->canBroke($equipmentName)) {
                 return true;
             }
         }
@@ -49,8 +49,8 @@ class Ammunition extends BaseWeapon
 
     public function hasNoWeapons(): bool
     {
-        foreach($this->weapons as $name => $weapon) {
-            if(in_array(strtolower($name), BaseWeapon::WEAPONS)){
+        foreach ($this->weapons as $name => $weapon) {
+            if (in_array(strtolower($name), BaseWeapon::WEAPONS)) {
                 return false;
             }
         }

@@ -21,14 +21,14 @@ abstract class BaseWeapon
     const EQUIPMENT = [self::SWORD, self::AXE, self::GREATSWORD, self::POISON, self::ARMOR, self::BUCKLER];
     const WEAPONS = [self::SWORD, self::AXE, self::GREATSWORD];
 
-    abstract function getDamage() : int;
+    abstract function getDamage(): int;
 
-    public function canBroke(string $equipment) : bool
+    public function canBroke(string $equipment): bool
     {
         return false;
     }
 
-    protected function getBlockedDamage(int $damage, bool $destroying) : int
+    protected function getBlockedDamage(int $damage, bool $destroying): int
     {
         return 0;
     }

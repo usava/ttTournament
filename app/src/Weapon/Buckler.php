@@ -15,10 +15,10 @@ class Buckler extends BaseWeapon
         return 0;
     }
 
-    function getBlockedDamage(int $damage, bool $destroying) : int
+    function getBlockedDamage(int $damage, bool $destroying): int
     {
         if ($this->canBlock()) {
-            if($destroying) {
+            if ($destroying) {
                 $this->hp--;
             }
 
@@ -28,7 +28,7 @@ class Buckler extends BaseWeapon
         return 0;
     }
 
-    private function canBlock() : bool
+    private function canBlock(): bool
     {
         if ($this->hp === 0) {
             return false;

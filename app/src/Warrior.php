@@ -61,7 +61,7 @@ abstract class Warrior
         $damage = $this->ammunition->getDamage();
         $damage = $this->attackModifier($damage);
 
-        if($damage > 0) {
+        if ($damage > 0) {
             $this->enemy->defend($damage);
         }
     }
@@ -88,9 +88,6 @@ abstract class Warrior
         $this->enemy = $enemy;
     }
 
-    abstract function getDefaultWeapon(): BaseWeapon;
-    abstract function attackModifier(int $damage): int;
-
     protected function checkAmmunition(): void
     {
         if ($this->ammunition->hasNoWeapons()) {
@@ -100,4 +97,8 @@ abstract class Warrior
             $this->enemy->ammunition->addWeapon($this->enemy->getDefaultWeapon());
         }
     }
+
+    abstract function getDefaultWeapon(): BaseWeapon;
+
+    abstract function attackModifier(int $damage): int;
 }

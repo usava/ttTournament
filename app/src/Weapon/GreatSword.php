@@ -9,7 +9,7 @@ class GreatSword extends BaseWeapon
 
     private int $hitsForCooldown = self::HITS_FOR_COOLDOWN;
 
-    function getDamage() : int
+    function getDamage(): int
     {
         if ($this->canHit()) {
             return BaseWeapon::GREATSWORD_DAMAGE;
@@ -18,7 +18,7 @@ class GreatSword extends BaseWeapon
         return 0;
     }
 
-    private function canHit() : bool
+    private function canHit(): bool
     {
         if ($this->hitsForCooldown > 0) {
             $this->hitsForCooldown--;
