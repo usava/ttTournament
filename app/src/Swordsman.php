@@ -3,6 +3,7 @@ namespace Tournament;
 
 use Tournament\Weapon\BaseWeapon;
 use Tournament\Weapon\Sword;
+use Tournament\Weapon\WeaponFactory;
 
 class Swordsman extends Warrior
 {
@@ -20,7 +21,7 @@ class Swordsman extends Warrior
 
     public function getDefaultWeapon(): BaseWeapon
     {
-        return new Sword();
+        return WeaponFactory::create(BaseWeapon::SWORD);
     }
 
     function attackModifier(int $damage): int

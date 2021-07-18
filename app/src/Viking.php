@@ -4,6 +4,7 @@ namespace Tournament;
 
 use Tournament\Weapon\Axe;
 use Tournament\Weapon\BaseWeapon;
+use Tournament\Weapon\WeaponFactory;
 
 class Viking extends Warrior
 {
@@ -15,7 +16,7 @@ class Viking extends Warrior
 
     public function getDefaultWeapon(): BaseWeapon
     {
-        return new Axe();
+        return WeaponFactory::create(BaseWeapon::AXE);
     }
 
     function attackModifier(int $damage): int

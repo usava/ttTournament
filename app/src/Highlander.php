@@ -4,6 +4,7 @@ namespace Tournament;
 
 use Tournament\Weapon\BaseWeapon;
 use Tournament\Weapon\GreatSword;
+use Tournament\Weapon\WeaponFactory;
 
 class Highlander extends Warrior
 {
@@ -20,7 +21,7 @@ class Highlander extends Warrior
 
     function getDefaultWeapon(): BaseWeapon
     {
-        return new GreatSword();
+        return WeaponFactory::create(BaseWeapon::GREATSWORD);
     }
 
     function attackModifier(int $damage): int
