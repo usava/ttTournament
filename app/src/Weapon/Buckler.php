@@ -6,6 +6,7 @@ namespace Tournament\Weapon;
 class Buckler extends BaseWeapon
 {
     const HITS_FOR_COOLDOWN = 1;
+
     protected int $hp = BaseWeapon::BUCKLER_HP;
 
     private int $hitsForCooldown = self::HITS_FOR_COOLDOWN;
@@ -15,13 +16,9 @@ class Buckler extends BaseWeapon
         return 0;
     }
 
-    function getBlockedDamage(int $damage, bool $destroying): int
+    function getBlockedDamage(int $damage): int
     {
         if ($this->canBlock()) {
-            if ($destroying) {
-                $this->hp--;
-            }
-
             return $damage;
         }
 
@@ -30,7 +27,7 @@ class Buckler extends BaseWeapon
 
     private function canBlock(): bool
     {
-        if ($this->hp === 0) {
+        if ($this->isBroken()) {
             return false;
         }
 
@@ -42,5 +39,18 @@ class Buckler extends BaseWeapon
         $this->hitsForCooldown = self::HITS_FOR_COOLDOWN;
 
         return false;
+    }
+
+    protected function breaking(): void
+    {
+        //take hp only when blocking attack
+        if($this->hp > 0 and !$this->hitsForCooldown){
+            $this->hp--;
+        }
+    }
+
+    protected function isBroken(): bool
+    {
+        return $this->hp <= 0;
     }
 }

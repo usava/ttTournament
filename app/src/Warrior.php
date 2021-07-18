@@ -58,18 +58,18 @@ abstract class Warrior
 
     protected function attack(): void
     {
-        $damage = $this->ammunition->getDamage();
-        $damage = $this->attackModifier($damage);
+        $damage = $this->attackModifier($this->ammunition->getDamage());
 
         if ($damage > 0) {
             $this->enemy->defend($damage);
         }
+
+        $this->ammunition->doBreak($this->enemy->ammunition);
     }
 
     protected function defend(int $damage): void
     {
-        $destroying = $this->enemy->ammunition->canBroke(BaseWeapon::BUCKLER);
-        $blockedDamage = $this->ammunition->getBlockedDamage($damage, $destroying);
+        $blockedDamage = $this->ammunition->getBlockedDamage($damage);
 
         $this->injury(max($damage - $blockedDamage, 0));
     }

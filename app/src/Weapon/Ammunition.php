@@ -4,9 +4,8 @@
 namespace Tournament\Weapon;
 
 
-class Ammunition extends BaseWeapon
+class Ammunition
 {
-
     private array $weapons = [];
 
     public function getDamage(): int
@@ -20,41 +19,45 @@ class Ammunition extends BaseWeapon
         return $damage;
     }
 
-    public function getBlockedDamage(int $damage, bool $destroying): int
+    public function getBlockedDamage(int $damage): int
     {
         $blockedDamage = 0;
 
         foreach ($this->weapons as $weapon) {
-            $blockedDamage += $weapon->getBlockedDamage($damage, $destroying);
+            $blockedDamage += $weapon->getBlockedDamage($damage);
         }
 
         return $blockedDamage;
     }
 
-    public function canBroke($equipmentName): bool
+    /**
+     * @param Ammunition $enemyAmmunition
+     */
+    public function doBreak(Ammunition $enemyAmmunition): void
     {
         foreach ($this->weapons as $weapon) {
-            if ($weapon->canBroke($equipmentName)) {
-                return true;
-            }
+            $weapon->doBreak($enemyAmmunition);
         }
-
-        return false;
     }
 
     public function addWeapon(BaseWeapon $weapon): void
     {
-        $this->weapons[basename(get_class($weapon))] = $weapon;
+        $this->weapons[$weapon->getName()] = $weapon;
     }
 
     public function hasNoWeapons(): bool
     {
         foreach ($this->weapons as $name => $weapon) {
-            if (in_array(strtolower($name), BaseWeapon::WEAPONS)) {
+            if (in_array($name, BaseWeapon::WEAPONS)) {
                 return false;
             }
         }
 
         return true;
+    }
+
+    public function getWeapons()
+    {
+        return $this->weapons;
     }
 }

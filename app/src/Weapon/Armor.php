@@ -10,7 +10,7 @@ class Armor extends BaseWeapon
         return BaseWeapon::REDUCE_DELIVERED_DAMAGE;
     }
 
-    public function getBlockedDamage(int $damage, bool $destroying): int
+    public function getBlockedDamage(int $damage): int
     {
         return BaseWeapon::REDUCE_RECEIVED_DAMAGE;
     }
