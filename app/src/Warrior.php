@@ -6,21 +6,41 @@ use Tournament\Weapon\Ammunition;
 use Tournament\Weapon\BaseWeapon;
 use Tournament\Weapon\WeaponFactory;
 
+/**
+ * Class Warrior
+ * @package Tournament
+ */
 abstract class Warrior
 {
     const SWORDSMAN_HP = 100;
     const VIKING_HP = 120;
     const HIGHLANDER_HP = 150;
 
+    /**
+     * @var int
+     */
     protected int $hp;
+    /**
+     * @var Warrior
+     */
     protected Warrior $enemy;
+    /**
+     * @var Ammunition
+     */
     protected Ammunition $ammunition;
 
+    /**
+     * Warrior constructor.
+     */
     public function __construct()
     {
         $this->ammunition = new Ammunition();
     }
 
+    /**
+     * @param $equipmentName
+     * @return $this
+     */
     public function equip($equipmentName): Warrior
     {
         if (in_array($equipmentName, BaseWeapon::EQUIPMENT)) {
@@ -31,6 +51,9 @@ abstract class Warrior
         return $this;
     }
 
+    /**
+     * @param Warrior $enemy
+     */
     function engage(Warrior $enemy): void
     {
         $this->setEnemy($enemy);
@@ -46,16 +69,25 @@ abstract class Warrior
         }
     }
 
+    /**
+     * @return bool
+     */
     protected function alive(): bool
     {
         return $this->hp > 0;
     }
 
+    /**
+     * @return int
+     */
     public function hitPoints(): int
     {
         return max(0, $this->hp);
     }
 
+    /**
+     *
+     */
     protected function attack(): void
     {
         $damage = $this->attackModifier($this->ammunition->getDamage());
@@ -67,6 +99,9 @@ abstract class Warrior
         $this->ammunition->doBreak($this->enemy->ammunition);
     }
 
+    /**
+     * @param int $damage
+     */
     protected function defend(int $damage): void
     {
         $blockedDamage = $this->ammunition->getBlockedDamage($damage);
@@ -74,6 +109,9 @@ abstract class Warrior
         $this->injury(max($damage - $blockedDamage, 0));
     }
 
+    /**
+     * @param int $damage
+     */
     protected function injury(int $damage): void
     {
         $this->hp -= $damage;
@@ -88,6 +126,9 @@ abstract class Warrior
         $this->enemy = $enemy;
     }
 
+    /**
+     * Equip default weapon
+     */
     protected function checkAmmunition(): void
     {
         if ($this->ammunition->hasNoWeapons()) {
@@ -98,7 +139,14 @@ abstract class Warrior
         }
     }
 
+    /**
+     * @return BaseWeapon
+     */
     abstract function getDefaultWeapon(): BaseWeapon;
 
+    /**
+     * @param int $damage
+     * @return int
+     */
     abstract function attackModifier(int $damage): int;
 }

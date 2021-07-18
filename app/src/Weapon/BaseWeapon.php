@@ -21,6 +21,9 @@ abstract class BaseWeapon
     const EQUIPMENT = [self::SWORD, self::AXE, self::GREATSWORD, self::POISON, self::ARMOR, self::BUCKLER];
     const WEAPONS = [self::SWORD, self::AXE, self::GREATSWORD];
 
+    /**
+     * @var array
+     */
     protected array $destroyableEquipment = [];
 
     /**
@@ -31,18 +34,31 @@ abstract class BaseWeapon
         return strtolower(basename(static::class));
     }
 
+    /**
+     * @return int
+     */
     abstract function getDamage(): int;
 
+    /**
+     * @param int $damage
+     * @return int
+     */
     public function getBlockedDamage(int $damage): int
     {
         return 0;
     }
 
+    /**
+     * @return array
+     */
     protected function getDestroyableEquipment(): array
     {
         return $this->destroyableEquipment;
     }
 
+    /**
+     * @param Ammunition $enemyAmmunition
+     */
     public function doBreak(Ammunition $enemyAmmunition): void
     {
         foreach ($enemyAmmunition->getWeapons() as $equipment) {
@@ -58,6 +74,9 @@ abstract class BaseWeapon
     {
     }
 
+    /**
+     * @return bool
+     */
     protected function isBroken(): bool
     {
         return false;

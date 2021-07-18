@@ -1,13 +1,21 @@
 <?php
 
-
 namespace Tournament\Weapon;
 
-
+/**
+ * Class Ammunition
+ * @package Tournament\Weapon
+ */
 class Ammunition
 {
+    /**
+     * @var array
+     */
     private array $weapons = [];
 
+    /**
+     * @return int
+     */
     public function getDamage(): int
     {
         $damage = 0;
@@ -19,6 +27,10 @@ class Ammunition
         return $damage;
     }
 
+    /**
+     * @param int $damage
+     * @return int
+     */
     public function getBlockedDamage(int $damage): int
     {
         $blockedDamage = 0;
@@ -40,11 +52,17 @@ class Ammunition
         }
     }
 
+    /**
+     * @param BaseWeapon $weapon
+     */
     public function addWeapon(BaseWeapon $weapon): void
     {
         $this->weapons[$weapon->getName()] = $weapon;
     }
 
+    /**
+     * @return bool
+     */
     public function hasNoWeapons(): bool
     {
         foreach ($this->weapons as $name => $weapon) {
@@ -56,6 +74,9 @@ class Ammunition
         return true;
     }
 
+    /**
+     * @return array
+     */
     public function getWeapons()
     {
         return $this->weapons;

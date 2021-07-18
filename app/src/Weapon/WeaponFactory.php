@@ -3,8 +3,16 @@
 
 namespace Tournament\Weapon;
 
+/**
+ * Class WeaponFactory
+ * @package Tournament\Weapon
+ */
 class WeaponFactory
 {
+    /**
+     * @param $weapon
+     * @return Armor|Axe|Buckler|GreatSword|Poison|Sword
+     */
     public static function create($weapon)
     {
         switch ($weapon) {

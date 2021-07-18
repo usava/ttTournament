@@ -2,14 +2,22 @@
 namespace Tournament;
 
 use Tournament\Weapon\BaseWeapon;
-use Tournament\Weapon\Sword;
 use Tournament\Weapon\WeaponFactory;
 
+/**
+ * Class Swordsman
+ * @package Tournament
+ */
 class Swordsman extends Warrior
 {
     const VISIOS_TYPE = 'Vicious';
+    const REGULAR_TYPE = 'Regular';
 
-    public function __construct(string $type = '')
+    /**
+     * Swordsman constructor.
+     * @param string $type
+     */
+    public function __construct(string $type = self::REGULAR_TYPE)
     {
         parent::__construct();
         $this->hp = Warrior::SWORDSMAN_HP;
@@ -19,11 +27,18 @@ class Swordsman extends Warrior
         }
     }
 
+    /**
+     * @return BaseWeapon
+     */
     public function getDefaultWeapon(): BaseWeapon
     {
         return WeaponFactory::create(BaseWeapon::SWORD);
     }
 
+    /**
+     * @param int $damage
+     * @return int
+     */
     function attackModifier(int $damage): int
     {
         return $damage;
